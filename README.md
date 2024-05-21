@@ -7,7 +7,7 @@ Right now it is just a command-line interface, but maybe in the future I will tu
 ## Usage
 
 ```
-usage: rank-cli.py [-h] [-n NEW_ENTRY] list_filepath
+usage: rank-cli.py [-h] [-n NEW_ENTRY | -r RERANK] list_filepath
 
 A command-line interface for generating and maintaining rankings of things.
 
@@ -18,6 +18,8 @@ options:
   -h, --help            show this help message and exit
   -n NEW_ENTRY, --new-entry NEW_ENTRY
                         Add a new entry to the list
+  -r RERANK, --rerank RERANK
+                        Rerank an existing item on the list
 ```
 
 ## Examples
