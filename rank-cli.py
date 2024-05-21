@@ -45,8 +45,11 @@ class RankedList:
 			json.dump(list_data, list_file)
 
 
-	def add_new_entry(self, name):
-		print(f"Adding {name} to list.")
+	def add_new_entry(self, name, skip_duplicate_check=False):
+		if not skip_duplicate_check and (name in self.likes or name in self.mid or name in self.dislikes):
+			print(f"{name} is already in your list! Use `--rerank` to change the rank.")
+			return
+
 		while True:
 			print(f"What did you think of {name}?")
 			rating = input("(0: I liked it!), (1: It was fine), (2: I didn't like it): ")
@@ -102,6 +105,20 @@ class RankedList:
 		return ranking
 
 
+	def rerank(self, name):
+		removed = False
+		for choice_list in [self.likes, self.mid, self.dislikes]:
+			if name in choice_list:
+				choice_list.remove(name)
+				removed = True
+				print(f"Reranking {name}")
+				break
+		if not removed:
+			raise ValueError(f"{name} does not exist in this list")
+
+		self.add_new_entry(name, skip_duplicate_check=True)
+
+
 	def __str__(self):
 		result = ""
 		for rank, name, rating in self.list_all_entries():
@@ -112,14 +129,18 @@ def main():
 	parser = argparse.ArgumentParser(description="A command-line interface for generating and maintaining rankings of things.")
 	parser.add_argument('list_filepath', help="Path to the list JSON")
 	# TODO: add nargs='*' to handle multiple new entries at at time
-	parser.add_argument('-n', '--new-entry', help="Add a new entry to the list")
-	# TODO: parser.add_argument('-r', '--rerank', help="Rerank an existing item on the list")
+	group = parser.add_mutually_exclusive_group()
+	group.add_argument('-n', '--new-entry', help="Add a new entry to the list")
+	group.add_argument('-r', '--rerank', help="Rerank an existing item on the list")
 	args = parser.parse_args()
 
 	rl = RankedList(args.list_filepath)
 
 	if args.new_entry:
 		rl.add_new_entry(args.new_entry)
+
+	if args.rerank:
+		rl.rerank(args.rerank)
 
 	print(rl)
 

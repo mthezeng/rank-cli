@@ -103,3 +103,22 @@ michael@michael-MS-7D43:~/projects/rank$ python3 rank-cli.py musicians
 
 michael@michael-MS-7D43:~/projects/rank$ 
 ```
+
+### Reranking an item
+
+```
+michael@michael-MS-7D43:~/projects/rank$ python3 rank-cli.py musicians --rerank "The 1975"
+Reranking The 1975
+What did you think of The 1975?
+(0: I liked it!), (1: It was fine), (2: I didn't like it): 1
+Which do you prefer?
+(0: The 1975), (1: Maroon 5): 1
+1: Porter Robinson (rating: 10.0)
+2: Owl City (rating: 8.3)
+3: Maroon 5 (rating: 6.6)
+4: The 1975 (rating: 4.9)
+5: Jake Paul (rating: 3.3)
+
+michael@michael-MS-7D43:~/projects/rank$ 
+
+```
