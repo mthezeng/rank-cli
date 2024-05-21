@@ -105,17 +105,21 @@ class RankedList:
 		return ranking
 
 
-	def rerank(self, name):
+	def delete(self,name):
 		removed = False
 		for choice_list in [self.likes, self.mid, self.dislikes]:
 			if name in choice_list:
 				choice_list.remove(name)
 				removed = True
-				print(f"Reranking {name}")
 				break
 		if not removed:
 			raise ValueError(f"{name} does not exist in this list")
+		self._write_out()
 
+
+	def rerank(self, name):
+		self.delete(name)
+		print(f"Reranking {name}")
 		self.add_new_entry(name, skip_duplicate_check=True)
 
 
@@ -130,8 +134,9 @@ def main():
 	parser.add_argument('list_filepath', help="Path to the list JSON")
 	# TODO: add nargs='*' to handle multiple new entries at at time
 	group = parser.add_mutually_exclusive_group()
-	group.add_argument('-n', '--new-entry', help="Add a new entry to the list")
-	group.add_argument('-r', '--rerank', help="Rerank an existing item on the list")
+	group.add_argument('-n', '--new-entry', metavar="ENTRY_NAME", help="Add a new entry to the list")
+	group.add_argument('-r', '--rerank', metavar="ENTRY_NAME", help="Rerank an existing item on the list")
+	group.add_argument('-d', '--delete', metavar="ENTRY_NAME", help="Delete an entry from the list")
 	args = parser.parse_args()
 
 	rl = RankedList(args.list_filepath)
@@ -141,6 +146,9 @@ def main():
 
 	if args.rerank:
 		rl.rerank(args.rerank)
+
+	if args.delete:
+		rl.delete(args.delete)
 
 	print(rl)
 

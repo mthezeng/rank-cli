@@ -7,7 +7,7 @@ Right now it is just a command-line interface, but maybe in the future I will tu
 ## Usage
 
 ```
-usage: rank-cli.py [-h] [-n NEW_ENTRY | -r RERANK] list_filepath
+usage: rank-cli.py [-h] [-n ENTRY_NAME | -r ENTRY_NAME | -d ENTRY_NAME] list_filepath
 
 A command-line interface for generating and maintaining rankings of things.
 
@@ -16,10 +16,12 @@ positional arguments:
 
 options:
   -h, --help            show this help message and exit
-  -n NEW_ENTRY, --new-entry NEW_ENTRY
+  -n ENTRY_NAME, --new-entry ENTRY_NAME
                         Add a new entry to the list
-  -r RERANK, --rerank RERANK
+  -r ENTRY_NAME, --rerank ENTRY_NAME
                         Rerank an existing item on the list
+  -d ENTRY_NAME, --delete ENTRY_NAME
+                        Delete an entry from the list
 ```
 
 ## Examples
@@ -45,13 +47,11 @@ You will then be prompted with some questions to decide where in the list to put
 ```
 michael@michael-MS-7D43:~/projects/rank$ python3 rank-cli.py musicians --new-entry "Owl City"
 musicians does not already exist. Creating a new list...
-Adding Owl City to list.
 What did you think of Owl City?
 (0: I liked it!), (1: It was fine), (2: I didn't like it): 0
 1: Owl City (rating: 10.0)
 
 michael@michael-MS-7D43:~/projects/rank$ python3 rank-cli.py musicians --new-entry "Porter Robinson"
-Adding Porter Robinson to list.
 What did you think of Porter Robinson?
 (0: I liked it!), (1: It was fine), (2: I didn't like it): 0
 Which do you prefer?
@@ -60,7 +60,6 @@ Which do you prefer?
 2: Owl City (rating: 8.3)
 
 michael@michael-MS-7D43:~/projects/rank$ python3 rank-cli.py musicians --new-entry "The 1975"
-Adding The 1975 to list.
 What did you think of The 1975?
 (0: I liked it!), (1: It was fine), (2: I didn't like it): 0
 Which do you prefer?
@@ -72,7 +71,6 @@ Which do you prefer?
 3: The 1975 (rating: 7.8)
 
 michael@michael-MS-7D43:~/projects/rank$ python3 rank-cli.py musicians --new-entry "Maroon 5"
-Adding Maroon 5 to list.
 What did you think of Maroon 5?
 (0: I liked it!), (1: It was fine), (2: I didn't like it): 1
 1: Porter Robinson (rating: 10.0)
@@ -80,15 +78,14 @@ What did you think of Maroon 5?
 3: The 1975 (rating: 7.8)
 4: Maroon 5 (rating: 6.6)
 
-michael@michael-MS-7D43:~/projects/rank$ python3 rank-cli.py musicians -n "Jake Paul"
-Adding Jake Paul to list.
-What did you think of Jake Paul?
+michael@michael-MS-7D43:~/projects/rank$ python3 rank-cli.py musicians -n "Rebecca Black"
+What did you think of Rebecca Black?
 (0: I liked it!), (1: It was fine), (2: I didn't like it): 2
 1: Porter Robinson (rating: 10.0)
 2: Owl City (rating: 8.9)
 3: The 1975 (rating: 7.8)
 4: Maroon 5 (rating: 6.6)
-5: Jake Paul (rating: 3.3)
+5: Rebecca Black (rating: 3.3)
 
 michael@michael-MS-7D43:~/projects/rank$ 
 ```
@@ -101,7 +98,7 @@ michael@michael-MS-7D43:~/projects/rank$ python3 rank-cli.py musicians
 2: Owl City (rating: 8.9)
 3: The 1975 (rating: 7.8)
 4: Maroon 5 (rating: 6.6)
-5: Jake Paul (rating: 3.3)
+5: Rebecca Black (rating: 3.3)
 
 michael@michael-MS-7D43:~/projects/rank$ 
 ```
@@ -119,8 +116,29 @@ Which do you prefer?
 2: Owl City (rating: 8.3)
 3: Maroon 5 (rating: 6.6)
 4: The 1975 (rating: 4.9)
-5: Jake Paul (rating: 3.3)
+5: Rebecca Black (rating: 3.3)
 
 michael@michael-MS-7D43:~/projects/rank$ 
 
+```
+
+### Deleting items
+
+```
+michael@michael-MS-7D43:~/projects/rank$ michael@michael-MS-7D43:~/projects/rank$ python3 rank-cli.py musicians 
+1: Porter Robinson (rating: 10.0)
+2: Owl City (rating: 8.3)
+3: Taylor Swift (rating: 6.6)
+4: The 1975 (rating: 5.5)
+5: Maroon 5 (rating: 4.4)
+6: Rebecca Black (rating: 3.3)
+
+michael@michael-MS-7D43:~/projects/rank$ python3 rank-cli.py musicians --delete "Maroon 5"
+1: Porter Robinson (rating: 10.0)
+2: Owl City (rating: 8.3)
+3: Taylor Swift (rating: 6.6)
+4: The 1975 (rating: 4.9)
+5: Rebecca Black (rating: 3.3)
+
+michael@michael-MS-7D43:~/projects/rank$ 
 ```
